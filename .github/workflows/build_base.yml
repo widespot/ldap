@@ -42,7 +42,7 @@ jobs:
           tags: |
             type=semver,pattern=${{github.event.inputs.openldap_version || '2.6.8'}}-deb${{github.event.inputs.debian_version || '12.7'}}-build
           flavor: |
-            latest=false
+            latest=true
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
