@@ -38,6 +38,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
+          tags: |
+            type=raw,value=${{github.event.inputs.openldap_version || '2.6.8'}}-deb${{github.event.inputs.debian_version || '12.7'}}-build
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Set up Docker Buildx
@@ -55,7 +57,7 @@ jobs:
           build-args: |
             DEBIAN_VERSION=${{github.event.inputs.debian_version || '12.7'}}
             OPENLDAP_VERSION=${{github.event.inputs.openldap_version || '2.6.8'}}
-          tags: ${{github.event.inputs.openldap_version || '2.6.8'}}-deb${{github.event.inputs.debian_version || '12.7'}}-build
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           # https://github.com/docker/build-push-action/issues/771
           provenance: false
