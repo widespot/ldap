@@ -8,7 +8,6 @@ on:
         default: "12.7"
       openldap_version:
         required: true
-        default: "2.6.8"
 
 env:
   REGISTRY: ghcr.io
@@ -48,8 +47,8 @@ jobs:
         with:
           context: .
           file: base.Dockerfile
-          platforms: linux/amd64,linux/arm64/v8
-          #platforms: linux/amd64
+          #platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/amd64
           push: true
           build-args: |
             DEBIAN_VERSION=${{github.event.inputs.debian_version || '12.7'}}
