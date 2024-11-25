@@ -1,7 +1,8 @@
 ARG DEBIAN_VERSION="12.7"
 ARG OPENLDAP_VERSION="2.6.8"
+ARG BASE_IMAGE
 
-FROM ghcr.io/widespot/ldap:${OPENLDAP_VERSION}-deb${DEBIAN_VERSION}-build AS build
+FROM ${BASE_IMAGE:-ghcr.io/widespot/ldap:${OPENLDAP_VERSION}-deb${DEBIAN_VERSION}-build} AS build
 
 RUN rm /usr/local/etc/openldap/slapd.ldif \
   && rm /usr/local/etc/openldap/slapd.conf

@@ -87,6 +87,14 @@ aligning better with modern LDAP management and OpenLDAP’s newer capabilities.
 > Environment variables related to configuration **ARE IGNORED** when a config file (ldif or kv) is provided
 
 ## Dev
+
+### Build docker images
+```shell
+docker buildx build --platform=linux/amd64,linux/arm64 --tag openldap-build --file build.Dockerfile .  
+docker buildx build --platform=linux/amd64,linux/arm64 --tag openldap --build-arg BASE_IMAGE=openldap-build .
+```
+
+## Example
 ```shell
 cd example
 docker compose up -d

@@ -1,6 +1,9 @@
 services:
   ldap:
-    build: ../
+    build:
+      context: ../
+      args:
+        BASE_IMAGE: openldap-build
     volumes:
       - ./seed:/seed
     ports:

@@ -1,18 +1,15 @@
-name: build base images
+name: build Docker image
 
 on:
-  workflow_dispatch:
-    inputs:
-      debian_version:
-        required: true
-        default: "12.7"
-      openldap_version:
-        required: true
-        default: "2.6.8"
+  push:
+    tags:
+      - v*
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  openldap_version: '2.6.8'
+  debian_version: '12.7'
 
 jobs:
   build-and-push-image:
@@ -37,7 +34,10 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           tags: |
-            type=raw,value=${{github.event.inputs.openldap_version || '2.6.8'}}-deb${{github.event.inputs.debian_version || '12.7'}}-build
+            type=semver,pattern=v{{version}}-${{ env.openldap_version }}-deb${{ env.debian_version }}
+            type=semver,pattern=v{{major}}.{{minor}}-${{ env.openldap_version }}-deb${{ env.debian_version }}
+            type=semver,pattern=v{{major}}-${{ env.openldap_version }}-deb${{ env.debian_version }}
+            type=semver,pattern=${{ env.openldap_version }}-deb${{ env.debian_version }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Set up QEMU
@@ -50,13 +50,13 @@ jobs:
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
-          file: build.Dockerfile
+          file: Dockerfile
           platforms: linux/amd64,linux/arm64/v8
           #platforms: linux/amd64
           push: true
           build-args: |
-            DEBIAN_VERSION=${{github.event.inputs.debian_version || '12.7'}}
-            OPENLDAP_VERSION=${{github.event.inputs.openldap_version || '2.6.8'}}
+            DEBIAN_VERSION=${{ env.debian_version }}
+            OPENLDAP_VERSION=${{ env.openldap_version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           # https://github.com/docker/build-push-action/issues/771
