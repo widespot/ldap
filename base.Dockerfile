@@ -1,7 +1,7 @@
 ARG DEBIAN_VERSION="12.7"
-ARG OPENLDAP_VERSION="2.5.18"
+ARG OPENLDAP_VERSION="2.6.8"
 
-FROM debian:${DEBIAN_VERSION}-slim AS build
+FROM debian:${DEBIAN_VERSION}-slim
 ARG OPENLDAP_VERSION
 
 RUN apt-get update && apt-get install -y ca-certificates curl
