@@ -1,7 +1,7 @@
 ARG DEBIAN_VERSION="12.7"
 ARG OPENLDAP_VERSION="2.5.18"
 
-FROM widespot/ldap:${OPENLDAP_VERSION}-deb${DEBIAN_VERSION}-base AS build
+FROM ghcr.io/widespot/ldap:${OPENLDAP_VERSION}-deb${DEBIAN_VERSION}-base AS build
 
 RUN rm /usr/local/etc/openldap/slapd.ldif \
   && rm /usr/local/etc/openldap/slapd.conf
@@ -26,7 +26,7 @@ RUN apt-get -y update \
 RUN mkdir -p /data \
     && mkdir -p /usr/local/var/run/ \
     && mkdir -p /usr/local/etc/slapd.d \
-    && mkdir -p /usr/local/etc/opendlap/cert
+    && mkdir -p /usr/local/etc/certs
 
 WORKDIR /
 

@@ -1,9 +1,6 @@
 name: build base images
 
 on:
-  push:
-    tags:
-      - 'v*'
   workflow_dispatch:
     inputs:
       debian_version:
