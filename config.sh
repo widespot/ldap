@@ -12,8 +12,9 @@ CONFIG_DIR_PATH=${CONFIG_DIR_PATH:-"${ETC_PATH}/slapd.d"}
 SEED_LDIF_DIR_PATH=${SEED_LDIF_DIR_PATH:-"/seed"}
 
 OLC_DB_MAX_SIZE=${OLC_DB_MAX_SIZE:-"1073741824"}
-OLC_SUFFIX=${OLC_SUFFIX:-"dc=example,dc=com"}
-OLC_ROOT_DN=${OLC_ROOT_DN:-"cn=admin,${OLC_SUFFIX}"}
+OLC_SUFFIX=${OLC_SUFFIX-"dc=example,dc=com"}
+OLC_ROOT_DN_SUFFIX=${OLC_SUFFIX:+",${OLC_SUFFIX}"}
+OLC_ROOT_DN=${OLC_ROOT_DN:-"cn=admin${OLC_ROOT_DN_SUFFIX}"}
 OLC_ROOT_PASSWORD=${OLC_ROOT_PASSWORD:-"password"}
 OLC_DB_DIRECTORY=${OLC_DB_DIRECTORY:-"/data"}
 OLC_ARGS_FILE=${OLC_ARGS_FILE:-"${VAR_PATH}/run/slapd.args"}
@@ -35,6 +36,7 @@ TLS_CERT_COMMON_NAME=${TLS_CERT_COMMON_NAME:="example.com"}
 CONFIGURE_BASIC_ACL=${CONFIGURE_BASIC_ACL:-"1"}
 BUILTIN_MODULES=${BUILTIN_MODULES:=""}
 BUILTIN_SCHEMAS=${BUILTIN_SCHEMAS:=""}
+EXTRA_SCHEMAS_DIR_PATH=${EXTRA_SCHEMAS_DIR_PATH:="/extra_schemas"}
 
 echo "# Check TLS cert files ..."
 echo " - ${TLS_CA_CERT_FILE_PATH}: $([ -f "${TLS_CA_CERT_FILE_PATH}" ] && echo -n "ok" || echo -n "missing")"
@@ -128,16 +130,24 @@ include: file://${ETC_PATH}/openldap/schema/core.ldif
 EOF
 
   if [ ! -z "${BUILTIN_SCHEMAS}" ]; then
-    echo " - load extra builtin schemas"
+    echo " - include builtin schemas"
     for str in ${BUILTIN_SCHEMAS//,/ } ; do
       SCHEMA_PATH="${ETC_PATH}/openldap/schema/${str}.ldif"
       echo "   - ${SCHEMA_PATH}"
       echo "include: file://${SCHEMA_PATH}" >> $CONFIG_LDIF_FILE_PATH
     done
   fi
+  if [ -d "${EXTRA_SCHEMAS_DIR_PATH}" ]; then
+    echo " - include extra schemas"
+    for ldif in ${EXTRA_SCHEMAS_DIR_PATH}/*.ldif; do
+      echo "   - ${ldif}"
+      echo "include: file://${ldif}" >> $CONFIG_LDIF_FILE_PATH
+    done
+  fi
   echo "" >> $CONFIG_LDIF_FILE_PATH
   echo "" >> $CONFIG_LDIF_FILE_PATH
 
+  echo " - Frontend DB"
   cat >> $CONFIG_LDIF_FILE_PATH << EOF
 #
 # Frontend DB configuration
@@ -162,6 +172,22 @@ EOF
   else
     echo "\n\n" >> $CONFIG_LDIF_FILE_PATH
   fi
+
+
+  echo " - Monitoring db configuration"
+  cat >> $CONFIG_LDIF_FILE_PATH << EOF
+#
+# Monitoring db configuration
+#
+dn: olcDatabase=monitor,cn=config
+objectClass: olcDatabaseConfig
+#
+olcDatabase: monitor
+olcRootDN: cn=config
+olcMonitoring: FALSE
+
+
+EOF
 
   cat >> $CONFIG_LDIF_FILE_PATH << EOF
 #
@@ -189,21 +215,6 @@ olcDbIndex: objectClass eq
 
 EOF
 
-  echo " - disable monitoring"
-  cat >> $CONFIG_LDIF_FILE_PATH << EOF
-#
-# Monitoring db configuration
-#
-dn: olcDatabase=monitor,cn=config
-objectClass: olcDatabaseConfig
-#
-olcDatabase: monitor
-olcRootDN: cn=config
-olcMonitoring: FALSE
-
-
-EOF
-
   if [ ! -z "${BUILTIN_MODULES}" ]; then
     echo " - load builtin modules"
     cat >> $CONFIG_LDIF_FILE_PATH << EOF
@@ -226,6 +237,6 @@ EOF
 fi
 
 COMMAND="/usr/local/sbin/slapadd -n 0 -F ${CONFIG_DIR_PATH} ${CONFIG_ARG} ${CONFIG_FILE_PATH}"
-echo -n " => Will execute the following command as root: \`$COMMAND\`"
+echo " => Will execute the following command as root: $COMMAND"
 su root -c "$COMMAND"
 echo ""

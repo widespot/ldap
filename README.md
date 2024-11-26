@@ -51,9 +51,10 @@ TODO
 | CONFIGURE_BASIC_ACL        | yes           | `1`                                | Anonymous user will have read access if no ACL configured. This setting to `1` will restrict anonymous users to `auth`       |
 | BUILTIN_MODULES            | yes           | `""`                               | comma separated list of modules. See list bellow                                                                             | 
 | BUILTIN_SCHEMAS            | yes           | `""`                               | comma separated list of built in schemas to enable. See list bellow                                                          |            
+| EXTRA_SCHEMAS_DIR_PATH     | yes           | `/extra_schemas`                   | All the `.ldif` files within that directory are imported in the config phase                                                 |            
 | OLC_DB_MAX_SIZE            | yes           | `1073741824`                       |                                                                                                                              |
 | OLC_SUFFIX                 | yes           | `dc=example,dc=com`                |                                                                                                                              |
-| OLC_ROOT_DN                | yes           | `cn=admin,${OLC_SUFFIX}`           |                                                                                                                              |
+| OLC_ROOT_DN                | yes           | `cn=admin,${OLC_SUFFIX}`           | Default value is `cn=admin` when `OLC_SUFFIX` is empty or unset                                                              |
 | OLC_ROOT_PASSWORD          | yes           | `password`                         |                                                                                                                              |
 | OLC_DB_DIRECTORY           | yes           | `/data`                            |                                                                                                                              |
 | OLC_ARGS_FILE              | yes           | `${VAR_PATH}/run/slapd.args`       |                                                                                                                              |
@@ -90,15 +91,9 @@ aligning better with modern LDAP management and OpenLDAP’s newer capabilities.
 
 ### Build docker images
 ```shell
-docker buildx build --platform=linux/amd64,linux/arm64 --tag openldap-build --file build.Dockerfile .  
+docker buildx build --platform=linux/amd64,linux/arm64 --tag openldap-build --file build.Dockerfile .
 docker buildx build --platform=linux/amd64,linux/arm64 --tag openldap --build-arg BASE_IMAGE=openldap-build .
 ```
 
 ## Example
-```shell
-cd example
-docker compose up -d
-```
-and browse https://localhost:10443, using
-* login DN: `cn=admin,dc=example,dc=com`
-* password: password
+see [example directory](./example)

@@ -20,7 +20,7 @@ COPY --from=build /usr/local/share/man /usr/local/share/man
 # openssl: required for TLS certificate generation
 # libltdl7: required after "--enable-modules" was added in ./configure
 RUN apt-get -y update \
-    && apt-get install --no-install-recommends -y openssl libltdl7 \
+    && apt-get install --no-install-recommends -y openssl libltdl7 sasl2-bin \
     && rm -rf /var/lib/apt/lists/*
 
 # Create run directories

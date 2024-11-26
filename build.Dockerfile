@@ -10,8 +10,10 @@ RUN mkdir /opt/openldap ; mkdir -p /tmp/pkg/cache/ ; cd /tmp/pkg/cache/ ; \
     tar -zxf "openldap-${OPENLDAP_VERSION}.tgz" -C /opt/openldap --no-same-owner --strip-components=1
 # gcc: required for ./configure
 # libltdl-dev required for --enable-modules
+# libsasl2-dev required for --enable-spasswd
 RUN apt-get install -y gcc libltdl-dev
 RUN apt-get install -y openssl libssl-dev
+RUN apt-get install -y libsasl2-dev
 WORKDIR /opt/openldap
 
 # ./configure --help
@@ -59,6 +61,7 @@ WORKDIR /opt/openldap
 RUN ./configure \
     --with-tls=openssl \
     --enable-modules=yes \
+    --enable-spasswd=yes \
     --enable-overlays=mod
 
 RUN apt-get install -y build-essential

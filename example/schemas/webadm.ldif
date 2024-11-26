@@ -1,0 +1,19 @@
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 32ce359b
+dn: cn=webadm,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: webadm
+olcAttributeTypes: {0}( 1.3.6.1.4.1.34617.2.3.1 NAME 'webadmSettings' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+olcAttributeTypes: {1}( 1.3.6.1.4.1.34617.2.3.2 NAME 'webadmData' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+olcAttributeTypes: {2}( 1.3.6.1.4.1.34617.2.3.3 NAME 'webadmType' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+olcAttributeTypes: {3}( 1.3.6.1.4.1.34617.2.3.4 NAME 'webadmVoice' SYNTAX 1.3.6.1.4.1.1466.115.121.1.40 SINGLE-VALUE )
+olcObjectClasses: {0}( 1.3.6.1.4.1.34617.2.4.1 NAME 'webadmAccount' SUP top AUXILIARY MUST ( cn $ uid ) MAY ( webadmSettings $ webadmData $ webadmVoice $ preferredLanguage $ mobile $ mail $ description ) )
+olcObjectClasses: {1}( 1.3.6.1.4.1.34617.2.4.2 NAME 'webadmConfig' SUP top STRUCTURAL MUST ( cn $ webadmType ) MAY ( webadmSettings $ description ) )
+olcObjectClasses: {2}( 1.3.6.1.4.1.34617.2.4.3 NAME 'webadmGroup' SUP top AUXILIARY MUST cn MAY ( webadmSettings $ description ) )
+#structuralObjectClass: olcSchemaConfig
+#entryUUID: ad8a4a70-28f0-103f-8d15-e38e83a0c35c
+#creatorsName: cn=config
+#createTimestamp: 20241027204917Z
+#entryCSN: 20241027204917.648171Z#000000#000#000000
+#modifiersName: cn=config
+#modifyTimestamp: 20241027204917Z

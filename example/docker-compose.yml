@@ -1,4 +1,22 @@
 services:
+  ldap-rcdevs:
+    platform: linux/amd64
+    restart: always
+    image: rcdevs/slapd
+
+  ldap-bitnami:
+    restart: always
+    image: bitnami/openldap:2.6.8
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: password
+      LDAP_ROOT: o=Root
+      LDAP_SUFFIX: ""
+      LDAP_ADMIN_DN: cn=admin  # cn=admin,o=Root
+      LDAP_CONFIGURE_PPOLICY: "yes"  # keep quotes or docker compose v1 will not be habby with Yaml boolean value
+      LDAP_ADD_SCHEMAS: "yes"
+      LDAP_EXTRA_SCHEMAS: cosine,dyngroup,inetorgperson,misc,nis,radius,samba,sudo,webadm
+
   ldap:
     build:
       context: ../
@@ -6,15 +24,17 @@ services:
         BASE_IMAGE: openldap-build
     volumes:
       - ./seed:/seed
+      - ./schemas:/extra_schemas
     ports:
       - 389:389
       - 636:636
     #tty: true
     #entrypoint: ["/bin/bash"]
     environment:
-      OTHER: ''
+      OLC_SUFFIX: ''
       BUILTIN_MODULES: 'accesslog,pcache'
-      BUILTIN_SCHEMAS: 'misc,cosine'
+      BUILTIN_SCHEMAS: 'misc,cosine,dyngroup,inetorgperson,nis'
+
   ldap-admin:
     image: osixia/phpldapadmin:0.9.0
     ports:

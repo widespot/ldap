@@ -1,0 +1,178 @@
+# WebADM
+dn: dc=WebADM
+dc: WebADM
+objectClass: top
+objectClass: domain
+
+# webadm, WebADM
+dn: cn=webadm,dc=WebADM
+objectClass: person
+objectClass: inetOrgPerson
+cn: webadm
+sn: webadm
+userPassword:: cGFzc3dvcmQ=
+
+# Clients.WebADM
+dn: dc=Clients,dc=WebADM
+dc: Clients
+objectClass: domain
+
+# Devices.WebADM
+dn: dc=Devices,dc=WebADM
+dc: Devices
+objectClass: domain
+
+# Domains.WebADM
+dn: dc=Domains,dc=WebADM
+dc: Domains
+objectClass: domain
+
+# WebApps.WebADM
+dn: dc=WebApps,dc=WebADM
+dc: WebApps
+objectClass: domain
+
+# WebSrvs.WebADM
+dn: dc=WebSrvs,dc=WebADM
+dc: WebSrvs
+objectClass: domain
+
+# AdminRoles.WebADM
+dn: dc=AdminRoles,dc=WebADM
+dc: AdminRoles
+objectClass: domain
+
+# OptionSets.WebADM
+dn: dc=OptionSets,dc=WebADM
+dc: OptionSets
+objectClass: domain
+
+# MountPoints.WebADM
+dn: dc=MountPoints,dc=WebADM
+dc: MountPoints
+objectClass: domain
+
+# other_admins, WebADM
+dn: cn=other_admins,dc=WebADM
+cn: other_admins
+member: cn=admin,o=Root
+objectClass: top
+objectClass: groupofnames
+
+# super_admins, WebADM
+dn: cn=super_admins,dc=WebADM
+cn: super_admins
+member: cn=admin,o=Root
+objectClass: top
+objectClass: groupofnames
+
+# Default, Domains.WebADM
+dn: cn=Default,dc=Domains,dc=WebADM
+objectClass: webadmConfig
+webadmType: Domain
+webadmSettings: LdapDN="o=root"
+cn: Default
+
+# PwReset, WebApps.WebADM
+dn: cn=PwReset,dc=WebApps,dc=WebADM
+objectClass: webadmConfig
+webadmType: WebApp
+webadmSettings:: UmVzZXRVUkw9Imh0dHBzOi8vbG9jYWxob3N0L3dlYmFwcHMvcHdyZXNldC8iL
+ FJlc2V0U3ViamVjdD0iTERBUCBQYXNzd29yZCBSZXNldCIsRGVmYXVsdEJhY2tlbmQ9T3Blbk9UUC
+ xSZXNldE1lc3NhZ2U9IkhlbGxvICVVU0VSTkFNRSUsCgpUaGlzIHBhc3N3b3JkIHJlc2V0IHJlcXV
+ lc3Qgd2lsbCBleHBpcmUgJVRJTUVPVVQlLgpQbGVhc2UgY2xpY2sgb24gdGhlIGxpbmsgYmVsb3cg
+ dG8gcmVzZXQgeW91ciBwYXNzd29yZC4KCiVVUkwlLiIsUmVzZXRTaG9ydE1lc3NhZ2U9IlBhc3N3b
+ 3JkIHJlc2V0IFVSTDogJVVSTCUiLERlZmF1bHREb21haW49IkRlZmF1bHQi
+cn: PwReset
+
+# SelfReg, WebApps.WebADM
+dn: cn=SelfReg,dc=WebApps,dc=WebADM
+objectClass: webadmConfig
+webadmType: WebApp
+webadmSettings:: UmVnaXN0ZXJVUkw9Imh0dHBzOi8vbG9jYWxob3N0L3dlYmFwcHMvc2VsZnJlZ
+ y8iLFJlZ2lzdGVyU3ViamVjdD0iT3Blbk9UUC9TcGFuS2V5IFNlbGYtUmVnaXN0cmF0aW9uIixSZW
+ dpc3Rlck1lc3NhZ2U9IkhlbGxvICVVU0VSTkFNRSUsCgpUaGlzIHNlbGYtcmVnaXN0cmF0aW9uIHJ
+ lcXVlc3Qgd2lsbCBleHBpcmUgJVRJTUVPVVQlLgpQbGVhc2UgY2xpY2sgb24gdGhlIGxpbmsgYmVs
+ b3cgdG8gc3RhcnQgc2VsZi1yZWdpc3RyYXRpb24uCgolVVJMJS4iLFJlZ2lzdGVyU2hvcnRNZXNzY
+ WdlPSJTZWxmLXJlZ2lzdHJhdGlvbiBVUkw6ICVVUkwlIixEZWZhdWx0RG9tYWluPSJEZWZhdWx0Ig
+ ==
+cn: SelfReg
+
+# SelfDesk, WebApps.WebADM
+dn: cn=SelfDesk,dc=WebApps,dc=WebADM
+objectClass: webadmConfig
+webadmType: WebApp
+webadmSettings: DefaultDomain="Default"
+cn: SelfDesk
+
+# SMSHub, WebSrvs.WebADM
+dn: cn=SMSHub,dc=WebSrvs,dc=WebADM
+objectClass: webadmConfig
+webadmType: WebSrv
+webadmSettings: SMSFailedMessage="SMS send failed",SMSSuccessMessage="SMS send
+  success",MSSFailedMessage="MSS request failed",MSSSuccessMessage="MSS reques
+ t success",MSSCancelMessage="MSS request cancelled",AuthFailedMessage="Invali
+ d username or password",BadRequestMessage="Invalid SMS request",TimerExistsMe
+ ssage="Blocking timer pending",ServerErrorMessage="Server Error",ServerBusyMe
+ ssage="Client access denied or server busy. Retry later",DefaultDomain="Defau
+ lt"
+cn: SMSHub
+
+# OpenOTP, WebSrvs.WebADM
+dn: cn=OpenOTP,dc=WebSrvs,dc=WebADM
+objectClass: webadmConfig
+webadmType: WebSrv
+webadmSettings: LoginMode=LDAPOTP,OTPType=TOKEN,OTPLength=6,ChallengeMode=Yes,
+ ChallengeTimeout=90,AuthFailedMessage="Invalid username or password",AuthCanc
+ elMessage="Mobile authentication canceled",AuthRetryMessage="Wrong password,
+ please retry",AuthSuccessMessage="Authentication success",OTPMessage="Hello %
+ USERNAME%. Your access code for %CLIENT% at %SERVICE% is %OTP%.",PushMessage=
+ "Received from %CLIENT% at %SERVICE%",MSSMessage="Login request from %CLIENT%
+  at %SERVICE%",ChallengeMessage="Enter your %TYPE% password",BadRequestMessag
+ e="Invalid authentication request",BadAccountMessage="Account missing require
+ d data or MFA enrolment needed",AccountBlockedMessage="Your account has been
+ blocked",AccountLockedMessage="Account currently in use",PasswordExpiredMessa
+ ge="Your LDAP password expired or must be changed",TokenExpiredMessage="Your
+ Token has expired and must be re-registered",NoSessionMessage="Session not st
+ arted or timedout",SessionExistsMessage="Session already started",TimerExists
+ Message="Blocking timer pending",ServerErrorMessage="Server error",ServerBusy
+ Message="Client access denied or server busy. Retry later",DefaultDomain="Def
+ ault"
+cn: OpenOTP
+
+# OpenSSO, WebSrvs.WebADM
+dn: cn=OpenSSO,dc=WebSrvs,dc=WebADM
+objectClass: webadmConfig
+webadmType: WebSrv
+webadmSettings: SessionTimeout=600,RequestSuccessMessage="Request success",Req
+ uestFailedMessage="Request failure",BadUserMessage="Unknwow user",BadAccountM
+ essage="Account missing required data",BadRequestMessage="Invalid SSO request
+ ",AccountLockedMessage="Account currently in use",NoSessionMessage="Session n
+ ot started or timedout",ServerErrorMessage="Server Error",ServerBusyMessage="
+ Client access denied or server busy. Retry later",DefaultDomain="Default"
+cn: OpenSSO
+
+# SpanKey, WebSrvs.WebADM
+dn: cn=SpanKey,dc=WebSrvs,dc=WebADM
+objectClass: webadmConfig
+webadmType: WebSrv
+webadmSettings: KeyType=RSA,RSAKeySize=2048,ECCKeySize=256,RequestFailedMessag
+ e="Invalid user or user not found",RequestSuccessMessage="Operation success",
+ BadRequestMessage="Invalid request",AuthFailedMessage="Invalid password",BadA
+ ccountMessage="Account missing required data or SSH enrollment needed",BadTag
+ Message="Account missing required server tag",AccountLockedMessage="Account c
+ urrently in use",PasswordRequiredMessage="Enter your LDAP password",PasswordE
+ xpiredMessage="Your LDAP password expired or must be changed",KeyExpiredMessa
+ ge="SSH public key expired or reached max use count",TimerExistsMessage="Bloc
+ king timer pending",NoSessionMessage="Session not started or timedout",Server
+ ErrorMessage="Server error",ServerBusyMessage="Client access denied or server
+  busy. Retry later",DefaultDomain="Default",RequireCertificate=Yes
+cn: SpanKey
+
+# root, OptionSets.WebADM
+dn: cn=root,dc=OptionSets,dc=WebADM
+objectClass: webadmConfig
+webadmType: OptionSet
+webadmSettings: LdapDN="o=root",UnicityContext="o=root"
+cn: root
+

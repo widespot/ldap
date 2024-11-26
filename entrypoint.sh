@@ -20,9 +20,13 @@ if [ ! -f /.config ]; then
       if [ ! -f "$i" ]; then
         echo " - skip $i"
       else
-        C="/usr/local/sbin/slapadd -n 1 -F ${CONFIG_DIR_PATH} -l ${i}"
+        case $i in
+        *.add.ldif) C="/usr/local/sbin/slapadd -n 2 -F ${CONFIG_DIR_PATH} -l ${i}";;
+        *.modify.ldif) C="/usr/local/sbin/slapmodify -n 2 -F ${CONFIG_DIR_PATH} -l ${i}";;
+        *) continue;;
+        esac
         echo " - ${C}... "
-        /usr/local/sbin/slapadd -n 1 -F ${CONFIG_DIR_PATH} -l ${i}
+        $C
       fi
     done
     echo " => seed phase completed"

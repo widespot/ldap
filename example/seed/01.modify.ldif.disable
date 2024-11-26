@@ -1,0 +1,4 @@
+dn: olcDatabase=mdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix:
