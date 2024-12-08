@@ -36,4 +36,4 @@ if [ ! -f /.config ]; then
   echo ""
 fi
 
-su root -c '/usr/local/libexec/slapd -F /usr/local/etc/slapd.d -d 0'
+su root -c '/usr/local/libexec/slapd -h "ldap:/// ldaps:///" -F /usr/local/etc/slapd.d -d 0'

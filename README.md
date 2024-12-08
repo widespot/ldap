@@ -13,35 +13,6 @@ docker run -p=389:389 --name=ldap widespot/ldap
 * [x] Mountable `/seed` directory for custom initialization using `.ldif` files (see `SEED_LDIF_DIR_PATH` [environment variable](#environment-variables))
 * [x] pre-built modules and schemas
 
-### Built in modules
-* `accesslog`
-* `auditlog`
-* `autoca`
-* `collect`
-* `constraint`
-* `dds`
-* `deref`
-* `dyngroup`
-* `dynlist`
-* `homedir`
-* `memberof`
-* `otp`
-* `pcache`
-* `ppolicy`
-* `refint`
-* `remoteauth`
-* `retcode`
-* `rwm`
-* `seqmod`
-* `sssvlv`
-* `sycprov`
-* `translucent`
-* `unique`
-* `valsort`
-
-### Built in schemas
-TODO
-
 ## Environment variables
 | ENV                        | configuration | default                            | description                                                                                                                  |
 |----------------------------|---------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
@@ -86,6 +57,36 @@ aligning better with modern LDAP management and OpenLDAP’s newer capabilities.
 > ⚠️WARNING ⚠️
 > 
 > Environment variables related to configuration **ARE IGNORED** when a config file (ldif or kv) is provided
+
+
+### Built in modules
+* `accesslog`
+* `auditlog`
+* `autoca`
+* `collect`
+* `constraint`
+* `dds`
+* `deref`
+* `dyngroup`
+* `dynlist`
+* `homedir`
+* `memberof`
+* `otp`
+* `pcache`
+* `ppolicy`
+* `refint`
+* `remoteauth`
+* `retcode`
+* `rwm`
+* `seqmod`
+* `sssvlv`
+* `sycprov`
+* `translucent`
+* `unique`
+* `valsort`
+
+### Built in schemas
+TODO
 
 ## Dev
 
